@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=800, initial-scale=1.0">
+    <title>jsx-embed</title>
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        // value embeding 테스트
+        // 변수 선언
+        const item = "sd 카드"
+        const value = 12000
+        // HTML 태그 내부에 변수값을 넣자
+        const msg = <h1>{item} => {value}원</h1>
+        // render() 로 렌더링
+        const elm = document.getElementById("root")
+        ReactDOM.render(msg, elm)
+    </script>
+</body>
+
+</html>
