@@ -19,8 +19,10 @@
                 // class 내에서 props를 사용하려면 super(props) 패턴으로 사용함
                 super(props)
                 // 이벤트 핸들러의 this를 설정합니다
+                // 없다면 아래 핸들러에서 props를 못읽어옴
                 this.clickHandler = this.clickHandler.bind(this)
             }
+            // 화살표 함수로 정의하면 bind를 하지 않아도됨
             clickHandler (e) {
                 const name = this.props.name
                 window.alert(`${name} 님 안녕하세요.`) // tilde 로 찍어줘야함!
@@ -32,8 +34,53 @@
                 )
             }
         }
+
+        // 체크박스 만들기
+        class CBox extends React.Component {
+            // 생성자
+            constructor(props) {
+                super(props)
+                // 상태 초기화
+                this.state = {checked: false}
+            }
+
+            render() {
+                // 체크되지 않았을 때의 상태
+                let mark = '◻'
+                let bstyle = {fontWeight: 'normal'}
+                // 체크되어 있는지 확인
+                if (this.state.checked) {
+                    mark = '◼'
+                    bstyle = {fontWeight: 'bold'}
+                }
+                // 클릭했을 때 이벤트 지정
+                const clickHandler = (e) => {
+                    // 화살표 함수일 때만 함수 내부의 this 가 변경되지 않음
+                    const newValue = !this.state.checked
+                    this.setState({checked: newValue})
+                }
+
+                return (
+                    <div onClick={clickHandler} style={bstyle}>
+                        {mark} {this.props.label}
+                    </div>
+                )
+            }
+        }
+
+        const dom =
+            <div>
+                <CBox label="apple" />
+                <CBox label="banana" />
+                <CBox label="orange" />
+                <CBox label="mango" />
+            </div>
+
         ReactDOM.render(
-            <Hello name="안동수" />,
+            <div>
+                <Hello name="안동수" />
+                {dom}
+            </div>,
             document.getElementById('root')
         )
     </script>
