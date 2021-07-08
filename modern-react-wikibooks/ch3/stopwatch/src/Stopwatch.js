@@ -11,13 +11,16 @@ class Stopwatch extends Component {
             startTime: 0
         }
         this.timerId = 0
-    }
-    // 마운트했을 때
-    componentWillMount() {
         this.timerId = setInterval((e) => {
             this.tick()
-        }, 1000);
+        }, 1000)
     }
+    // 마운트했을 때
+    // deprecated warning이 떠서 바꿔봄
+    // componentWillMount() {
+        //  state를 초기화하는 경우라면, 보통은 constructor()를 사용하는 것이 좋습니다.
+        //  https://ko.reactjs.org/docs/react-component.html#unsafe_componentwillmount
+    // }
     // 언마운트했을때
     componentWillUnmount() {
         clearInterval(this.timerId)
