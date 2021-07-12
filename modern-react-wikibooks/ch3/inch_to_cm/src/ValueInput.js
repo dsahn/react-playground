@@ -25,8 +25,8 @@ export default class ValueInput extends Component {
         }
     }
     // 프로퍼티가 변경됐을 때
-    componentWillReceiveProps(nextProps) {
-        this.setState({value: nextProps.value})
+    static getDerivedStateFromProps(props, state) {
+        return ({ value: props.value })
     }
     // 렌더링
     render() {
