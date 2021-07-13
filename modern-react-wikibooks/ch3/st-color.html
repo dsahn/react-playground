@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <div id="info"></div>
+    <script type="text/babel">
+    // 색 선택 컴포넌트를 정의
+    class ColorBox extends React.Component {
+        // 생성자
+        constructor(props) {
+            super(props)
+            // 상태 초기화
+            this.state = {
+                index: 0,
+                colors: ['red', 'blue', 'green', 'yellow', 'black']
+            }
+        }
+        // 렌더링
+        render () {
+            // state 에서 값을 추출합니다
+            const colors = this.state.colors
+            const index = this.state.index
+            // 현재 선택된 색
+            const cur = (index >= 0) ? colors[index] : ''
+            // 각각의 색을 span 요소로 생성
+            const items = colors.map((c) => {
+                // 테두리를 두름
+                let bs = '1px solid white'
+                if (c == cur) {
+                    bs = '1px solid black'
+                }
+                // 색을 스타일로 설정
+                const cstyle = {
+                    color: c, border: bs
+                }
+                // 색을 클릭했을 때 처리
+                const clickHandler = (e) => {
+                    const c = e.target.style.color
+                    const i = this.state.colors.indexOf(c)
+                    // 상태를 변경
+                    this.setState({index: i})
+                    // 사용자 정의 이벤트
+                    if (this.props.onColorChange) {
+                        this.props.onColorChange({color: c})
+                    }
+                }
+                // span 요소로 색 타일을 반환
+                return (
+                    <span onClick={clickHandler}
+                        style={cstyle}>■</span>
+                )
+            })
+            // 렌더링할 내용을 반환
+            return (
+                <div>{items}</div>
+            )
+        }
+    }
+    // 리액트로 DOM의 내용을 변경
+    const colorHandler = (e) => {
+        ReactDOM.render(
+            <span>{e.color}</span>,
+            document.getElementById('info')
+        )
+    }
+    const dom = <div>
+         <ColorBox id="cb" onColorChange={colorHandler} />
+          </div>
+    ReactDOM.render(dom, document.getElementById('root'))
+    </script>
+</body>
+</html>
