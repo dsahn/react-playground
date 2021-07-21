@@ -94,7 +94,7 @@ export default class FormInput extends Component {
 
 // 디폴트값등을 설정할 때 편할듯
 // 프로퍼티의 자료형 정의
-FormInput.PropTypes = {
+FormInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   filter: PropTypes.object,
