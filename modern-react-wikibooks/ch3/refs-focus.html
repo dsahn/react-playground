@@ -1,0 +1,80 @@
+<!-- ref 프로퍼티를 사용하여 DOM 을 직접 조작함
+    - 사용자가 입력 양식의 "전송" 버튼을 눌렀는데 필수를 입력하지 않아 텍스트박스에 초점을 맞추는 등의 직접 접근 상황이 필요
+    - 콜백함수는 매개변수로 DOM 객체를 취함
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        // 입력 양식 컴포넌트
+        class LoginForm extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    user: '',
+                    pass: ''
+                }
+            }
+            render() {
+                const doSubmit = e => this.doSubmit();
+                const doChange = e => this.doChange();
+                // 렌더링 내용
+                return (
+                    <form onSubmit={doSubmit}>
+                        <label>사용자 이름:<br />
+                            <input type='text' name='user'
+                             ref={ (i)=>{ this.user = i } } 
+                             value={this.state.user}
+                             onchange={doChange} />
+                        </label><br/>
+                        <label>비밀번호:<br />
+                            <input type='password' name='pass'
+                             ref={ (i)=>{ this.pass = i } } 
+                             value={this.state.pass}
+                             onchange={doChange} />
+                        </label><br/>
+                        <input type="submit" value="전송" />
+                    </form>
+                )
+            }
+            // target 이라는 키워드는 input과 같이 사용되는듯함.
+            doChange(e) {
+                const key = e.target.name
+                this.setState({
+                    [key]: e.target.value
+                })
+            }
+            doSubmit(e) {
+                e.preventDefault()
+                // 값이 없을 경우 input 요소에 초점을 맞춤
+                if (!this.state.user) {
+                    this.user.focus()
+                    return
+                }
+                if (!this.state.pass) {
+                    this.pass.focus()
+                    return
+                }
+                window.alert(JSON.stringify(this.state))
+            }
+        }
+        // DOM의 내용 변경
+        ReactDOM.render(
+            <div>
+                <LoginForm />
+            </div>
+            , document.getElementById('root')
+        )
+    </script>
+</body>
+</html>
