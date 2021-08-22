@@ -26,21 +26,27 @@ const Auth = () => {
                 // log in
                 data = await authService.signInWithEmailAndPassword(email, password);
             }
+            console.log(data);
         } catch (error) {
             setError(error.message);
         }
     }
     const toggleAccount = () => setNewAccount((prev) => !prev);
     const onSocialClick = async (event) => {
-        const {target: {name}}= event;
-        let provider;
-        if (name === "google") {
-            provider = new firebaseInstance.auth.GoogleAuthProvider();
-        } else if (name === "github") {
-            provider = new firebaseInstance.auth.GithubAuthProvider();
+        const { target: { name } } = event;
+        try {
+            let provider;
+            if (name === "google") {
+                provider = new firebaseInstance.auth.GoogleAuthProvider();
+            } else if (name === "github") {
+                provider = new firebaseInstance.auth.GithubAuthProvider();
+            }
+            const data = await authService.signInWithPopup(provider);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+            setError(error.message);
         }
-        const data = await authService.signInWithPopup(provider);
-        console.log(data);
     };
     return (
         <div>
