@@ -1,12 +1,12 @@
 import React from 'react'
-
 import { connect } from 'react-redux';
+import { addSubscriber } from '../redux/subscribers/actions';
 
 const Subscribers = (props) => {
     return (
         <div className="items">
             <h2>구독자 수 : {props.count}</h2>
-            <button>구독하기!</button>
+            <button onClick={()=>props.addSubscriber()}>구독하기!</button>
             
         </div>
     )
@@ -17,4 +17,9 @@ const mapStateToProps = (state) => {
         count: state.count
     }
 }
-export default connect(mapStateToProps)(Subscribers)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addSubscriber: ()=>dispatch(addSubscriber())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Subscribers)
