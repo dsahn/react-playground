@@ -16,9 +16,9 @@ const mapStateToProps = (state) => {
         count: state.count
     }
 }
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addSubscriber: () => dispatch(addSubscriber())
-    }
+
+const mapDispatchToProps = {
+    addSubscriber
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Subscribers)
