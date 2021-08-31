@@ -11,9 +11,9 @@ const Subscribers = ({ count, addSubscriber }) => {
     )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ subscribers }) => {
     return {
-        count: state.subscribers.count
+        count: subscribers.count
     }
 }
 
