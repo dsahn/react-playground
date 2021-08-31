@@ -9,7 +9,7 @@ const viewsReducer = (state = initialState, action) => {
         case ADD_VIEW:
             return {
                 ...state,
-                count: state.count + 1
+                count: state.count + action.payload
             };
         default: return state;
     }
