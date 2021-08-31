@@ -13,7 +13,7 @@ const Subscribers = ({ count, addSubscriber }) => {
 
 const mapStateToProps = (state) => {
     return {
-        count: state.count
+        count: state.subscribers.count
     }
 }
 
