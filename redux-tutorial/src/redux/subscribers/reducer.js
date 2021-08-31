@@ -4,7 +4,7 @@ const initialState = {
     count: 110
 }
 
-const subscribersReducer = (state=initialState, action) => {
+const subscribersReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_SUBSCRIBER:
             return {
