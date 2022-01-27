@@ -1,32 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { dbService } from 'fbase';
 
-const Home = () => {
+const Home = ({ userObj }) => {
     const [nweet, setNweet] = useState("")
     const [nweets, setNweets] = useState([])
-    const getNweets = async () => {
-        // it returns Promise <QuerySnapshot>
-        const dbNweets = await dbService.collection("nweets").get()
-        // dbNweets.forEach((document) => console.log(document.data()))
-        dbNweets.forEach((document) => {
-            const nweetObject = {
-                ...document.data(),
-                id: document.id
-            }
-            // 값 대신 함수를 전달, 이전 값이 파라미터임
-            // react 에서 state array 를 채우는 관례임
-            setNweets(prev => [nweetObject, ...prev])
-        })
-    }
 
+    // snapshot 을 사용하면 re-render 하지 않아도 실시간 출력된다.
     useEffect(() => {
-        getNweets();
+        dbService.collection("nweets").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+            const nweetarray = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }))
+            setNweets(nweetarray)
+        })
     }, [])
+
     const onSubmit = async (event) => {
         event.preventDefault();
         await dbService.collection("nweets").add({
-            nweet,
+            text: nweet,
             createdAt: Date.now(),
+            creatorId: userObj.uid,
         });
         setNweet("")
     };
@@ -50,7 +45,7 @@ const Home = () => {
                 {nweets.map((nweet) => (
                     <div key={nweet.id}>
                         {/* 두번째 nweet은 컬럼 이름임 */}
-                        <h4>{nweet.nweet}</h4>
+                        <h4>{nweet.text}</h4>
                     </div>
                 ))}
             </div>
