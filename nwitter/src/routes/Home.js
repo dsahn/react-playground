@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { dbService } from 'fbase';
 import Nweet from 'components/Nweet';
 
@@ -6,6 +6,7 @@ const Home = ({ userObj }) => {
     const [nweet, setNweet] = useState("")
     const [nweets, setNweets] = useState([])
     const [attachment, setAttachment] = useState()
+    const fileInput = useRef()
 
     // snapshot 을 사용하면 re-render 하지 않아도 실시간 출력된다.
     useEffect(() => {
@@ -43,7 +44,10 @@ const Home = ({ userObj }) => {
         }
         reader.readAsDataURL(theFile)
     }
-    const onClearAttachment = () => setAttachment(null)
+    const onClearAttachment = () => {
+        setAttachment(null)
+        fileInput.current.value = null
+    }
     return (
         <div>
             <form onSubmit={onSubmit}>
@@ -52,7 +56,7 @@ const Home = ({ userObj }) => {
                     type="text"
                     placeholder="What's on your mind?"
                     maxLength={120} />
-                <input type="file" accept='image/*' onChange={onFileChange} />
+                <input type="file" accept='image/*' onChange={onFileChange} ref={fileInput} />
                 <input type="submit" value="Nweet" />
                 {attachment && <div>
                     <img src={attachment} width="50px" height="50px" alt="thumbnail" />
