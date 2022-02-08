@@ -37,6 +37,8 @@ const Nweet = ({ nweetObj, isOwner }) => {
                 <>
                     {/* 두번째 nweet은 컬럼 이름임 */}
                     <h4>{nweetObj.text}</h4>
+                    {nweetObj.attachmentUrl &&
+                        <img src={nweetObj.attachmentUrl} width="50px" height="50px" alt={nweetObj.text} />}
                     {isOwner && <>
                         <button onClick={onDeleteClick}>Delete</button>
                         <button onClick={toggleEditing}>Edit</button>
