@@ -6,7 +6,7 @@ import Nweet from 'components/Nweet';
 const Home = ({ userObj }) => {
     const [nweet, setNweet] = useState("")
     const [nweets, setNweets] = useState([])
-    const [attachment, setAttachment] = useState()
+    const [attachment, setAttachment] = useState("")
     const fileInput = useRef()
 
     // snapshot 을 사용하면 re-render 하지 않아도 실시간 출력된다.
