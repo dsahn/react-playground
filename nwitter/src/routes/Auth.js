@@ -1,5 +1,5 @@
 import { authService, firebaseInstance } from 'fbase';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 const Auth = () => {
     const [email, setEmail] = useState("");
@@ -8,7 +8,7 @@ const Auth = () => {
     const [error, setError] = useState("");
 
     const onChange = (event) => {
-        const {target: {name, value}} = event;
+        const { target: { name, value } } = event;
         if (name === "email") {
             setEmail(value)
         } else if (name === "password") {
@@ -68,7 +68,7 @@ const Auth = () => {
                 <input type="submit" value={newAccount ? "Create Account" : "LogIn"} />
                 {error}
             </form>
-            <span onClick={toggleAccount}>{newAccount? "Sign In" : "Create Account"}</span>
+            <span onClick={toggleAccount}>{newAccount ? "Sign In" : "Create Account"}</span>
             <div>
                 <button onClick={onSocialClick} name="google">Continue with Google</button>
                 <button onClick={onSocialClick} name="github">Continue with Github</button>
