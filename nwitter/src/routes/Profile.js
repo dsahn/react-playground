@@ -1,7 +1,8 @@
-import { authService } from 'fbase';
+import { authService, dbService } from 'fbase';
+import { useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom"
 
-const Profile = () => {
+const Profile = ({ userObj }) => {
     const navigate = useNavigate();
     const waiter = (timeToDelay) => new Promise((resolve) => setTimeout(resolve, timeToDelay))
 
@@ -13,7 +14,23 @@ const Profile = () => {
             waiter(100).then(() => navigate("/"))
         })
     }
+    const getMyNweets = useCallback(async () => {
+        const nweets = await dbService
+            .collection("nweets")
+            .where("creatorId", "==", userObj.uid)
+            .orderBy("createdAt", "asc")
+            .get();
 
-    return <><button onClick={onLogOutClick}>Log Out</button></>;
+        console.log(nweets.docs.map((doc) => doc.data()))
+    }, [userObj])
+
+    useEffect(() => {
+        getMyNweets();
+    }, [getMyNweets])
+
+    return (
+        <><button onClick={onLogOutClick}>Log Out</button></>
+
+    )
 }
 export default Profile;
