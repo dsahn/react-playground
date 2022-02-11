@@ -3,21 +3,17 @@ import { useNavigate } from "react-router-dom"
 
 const Profile = () => {
     const navigate = useNavigate();
+    const waiter = (timeToDelay) => new Promise((resolve) => setTimeout(resolve, timeToDelay))
 
-    // FIXME 왜 signOut 한 뒤에 navigate 하는데
-    // HOME을 먼저 그린 뒤에 auth 를 하는지 모르겠네...
+    // signOut 한 뒤에 navigate 를 하면, HOME 으로 route 된 뒤에 auth 로 route 됨. 약간의 딜레이가 필요함
+    // - timeout 딜레이를 주면 'Warning: Can't perform a React state update on an unmounted component.' 에러가 사라짐
+    // - no routes matched location 에러는 from=* to=/ 를 탈 때 찍히는 것으로 보임
     const onLogOutClick = () => {
         authService.signOut().then(() => {
-            console.log('done!!')
-            navigate("/");
+            waiter(100).then(() => navigate("/"))
         })
     }
 
-    // const onLogOutClick = async () => {
-    //     await authService.signOut()
-    //     console.log('done!!')
-    //     navigate("/");
-    // }
     return <><button onClick={onLogOutClick}>Log Out</button></>;
 }
 export default Profile;
