@@ -13,6 +13,11 @@ function App() {
       if (user) {
         setIsLoggedIn(true);
         setUserObj(user);
+        if (user.displayName === null) {
+          user.updateProfie({
+            displayName: "newbie"
+          })
+        }
       } else {
         setIsLoggedIn(false);
       }
