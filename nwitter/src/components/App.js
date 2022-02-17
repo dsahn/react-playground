@@ -12,9 +12,15 @@ function App() {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
-        setUserObj(user);
+        // user object 가 shallow compare를 수행하기에, 달라진게 없다고 간주함
+        // user 객체 중 필요한 것만 userObj 에 담자
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
+        });
         if (user.displayName === null) {
-          user.updateProfie({
+          user.updateProfile({
             displayName: "newbie"
           })
         }
@@ -25,9 +31,18 @@ function App() {
     })
   }, [])
 
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    setUserObj({
+      displayName: user.displayName,
+      uid: user.uid,
+      updateProfile: (args) => user.updateProfile(args),
+    })
+  }
+
   return (
     <>
-      {init ? <AppRouter isLoggedIn={Boolean(isLoggedIn)} userObj={userObj} /> : <h1>Initializing...</h1>}
+      {init ? <AppRouter refreshUser={refreshUser} isLoggedIn={Boolean(isLoggedIn)} userObj={userObj} /> : <h1>Initializing...</h1>}
       <footer>&copy; Nwitter {new Date().getFullYear()}</footer>
     </>
   );
