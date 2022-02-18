@@ -3,7 +3,7 @@ import { useEffect, useCallback, useState } from 'react';
 import { useNavigate } from "react-router-dom"
 
 const Profile = ({ userObj, refreshUser }) => {
-    const [newDisplayName, setNewDisplayName] = useState(userObj.displayName)
+    const [newDisplayName, setNewDisplayName] = useState(userObj ? userObj.displayName : "")
     const navigate = useNavigate();
     const waiter = (timeToDelay) => new Promise((resolve) => setTimeout(resolve, timeToDelay))
 

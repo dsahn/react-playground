@@ -25,6 +25,8 @@ function App() {
           })
         }
       } else {
+        // 이걸 없애야 profile 단에서 에러가 안남
+        // setUserObj(null)
         setIsLoggedIn(false);
       }
       setInit(true);
